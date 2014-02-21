@@ -18,10 +18,37 @@ namespace NancyRunner.Modules
         {
             _repo = repo;
 
+            #region Before Request Hook
+
+            Before += ctx =>
+            {
+                Console.WriteLine("I'm about to execute {0}", ctx.Request.Url.ToString());
+                return null;
+            };
+
+            #endregion
+
+            #region After Request Hook
+
+            After += ctx =>
+            {
+                if (ctx.CurrentUser != null)
+                {
+                    ViewBag.UserName = ctx.CurrentUser.UserName;
+                    ViewBag.IsLoggedIn = true;
+                }
+                else
+                {
+                    ViewBag.UserName = "Whoever You Are";
+                    ViewBag.IsLoggedIn = false;
+                }
+            };
+
+            #endregion 
+
             Get["/quote"] = _ =>
             {
                 var quotes = _repo.GetAll();
-                SetUserName(quotes);
                 return View["Index.cshtml", quotes];
             };
 
@@ -36,7 +63,6 @@ namespace NancyRunner.Modules
             Get["/quote/{id}"] = args =>
             {
                 var quote = _repo.GetWithDetail(args.id);
-                SetUserName(quote);
                 return View["details.cshtml", quote];
             };
 
@@ -44,7 +70,6 @@ namespace NancyRunner.Modules
             {
                 this.RequiresAuthentication();
                 var model = new Quote();
-                SetUserName(model);
                 return View["create.cshtml", model];
             };
 
@@ -73,7 +98,6 @@ namespace NancyRunner.Modules
             {
                 this.RequiresAuthentication();
                 var quote = _repo.GetById(args.id);
-                SetUserName(quote);
                 return View["edit.cshtml", quote];
             };
 

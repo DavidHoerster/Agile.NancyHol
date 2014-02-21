@@ -35,6 +35,19 @@ namespace NancyRunner
                 UserMapper = container.Resolve<IUserMapper>(),
             };
             FormsAuthentication.Enable(pipelines, formsAuthConfiguration);
+
+
+            //silly logging statements
+            pipelines.BeforeRequest += (ctx) =>
+            {
+                Console.WriteLine("starting up request, but set in app startup");
+                return null;
+            };
+
+            pipelines.AfterRequest += (ctx) =>
+            {
+                Console.WriteLine("ending request, but set in app startup");
+            };
         }
     }
 }
