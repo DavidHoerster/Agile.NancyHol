@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nancy;
 using Nancy.Conventions;
+using NancyRunner.Repository;
 
 namespace NancyRunner
 {
@@ -19,6 +20,10 @@ namespace NancyRunner
             conventions.StaticContentsConventions.Add(
                 StaticContentConventionBuilder.AddDirectory("/assets")
             );
+        }
+        protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
+        {
+            container.Register<IQuoteRepository>(new StaticQuoteRepository());
         }
     }
 }
