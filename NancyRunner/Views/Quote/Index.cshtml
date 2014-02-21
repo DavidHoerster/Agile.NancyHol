@@ -1,0 +1,59 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<NancyRunner.Models.QuoteList>
+@using System.Linq;
+
+@{
+    ViewBag.Title = "All Quotes";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h2>Table o' Quotes</h2>
+
+<p>
+    <a href="quote/create">Create New</a>
+</p>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Body
+        </th>
+        <th>
+            Year
+        </th>
+        <th>
+            Abstract
+        </th>
+        <th>
+            Source
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Quotes)
+    {
+        <tr>
+            <td>
+                <a href="quote/@item.Id">@item.Title</a>
+            </td>
+            <td>
+                @item.ArticleBody
+            </td>
+            <td>
+                @item.Year
+            </td>
+            <td>
+                @item.Abstract
+            </td>
+            <td>
+                @item.Source
+            </td>
+            <td>
+                <a href="quote/edit/@item.Id">Edit</a>
+                <a href="quote/delete/@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
