@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nancy;
+using Nancy.Authentication.Forms;
 using Nancy.Conventions;
 using NancyRunner.Repository;
 
@@ -24,6 +25,16 @@ namespace NancyRunner
         protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
         {
             container.Register<IQuoteRepository>(new StaticQuoteRepository());
+            container.Register<IUserMapper, UserRepository>();
+
+            //configure forms authentication
+            var formsAuthConfiguration =
+                new FormsAuthenticationConfiguration()
+            {
+                RedirectUrl = "~/login",
+                UserMapper = container.Resolve<IUserMapper>(),
+            };
+            FormsAuthentication.Enable(pipelines, formsAuthConfiguration);
         }
     }
 }
