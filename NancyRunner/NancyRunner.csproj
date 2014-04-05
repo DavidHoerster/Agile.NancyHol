@@ -64,6 +64,8 @@
     <Compile Include="Models\QuoteList.cs" />
     <Compile Include="Modules\AuthModule.cs" />
     <Compile Include="Modules\QuoteModule.cs" />
+    <Compile Include="Modules\SecureModule.cs" />
+    <Compile Include="Modules\SecureQuoteModule.cs" />
     <Compile Include="PageNotFoundHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

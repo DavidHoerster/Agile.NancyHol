@@ -66,54 +66,6 @@ namespace NancyRunner.Modules
                 return View["details.cshtml", quote];
             };
 
-            Get["/quote/create"] = _ =>
-            {
-                this.RequiresAuthentication();
-                var model = new Quote();
-                return View["create.cshtml", model];
-            };
-
-            Post["/quote/create"] = args =>
-            {
-                this.RequiresAuthentication();
-                var newQuote = this.Bind<Quote>();
-                if (_repo.Insert(newQuote))
-                {
-                    return this.Response.AsRedirect("/quote");
-                }
-                else
-                {
-                    return View["index.cshtml"];
-                }
-            };
-
-            Get["/quote/delete/{id}"] = args =>
-            {
-                this.RequiresAuthentication();
-                _repo.DeleteById(args.id);
-                return this.Response.AsRedirect("/quote");
-            };
-
-            Get["/quote/edit/{id}"] = args =>
-            {
-                this.RequiresAuthentication();
-                var quote = _repo.GetById(args.id);
-                return View["edit.cshtml", quote];
-            };
-
-            Post["/quote/edit/{id}"] = model =>
-            {
-                this.RequiresAuthentication();
-                var theQuote = this.Bind<Quote>();
-                if (_repo.Update(theQuote))
-                {
-                    return this.Response.AsRedirect("/quote");
-                }
-                else
-                {
-                    return "ooops!";
-                }
-            };
         }
 
         private void SetUserName(BaseQuote theObject)
