@@ -26,7 +26,8 @@ namespace NancyRunner
             var url = ConfigurationManager.AppSettings["minimal.url"];
 
             Console.WriteLine("Register host URL of {0}", url);
-            var nancyHost = new NancyHost(nancyConfig,
+            var nancyHost = new NancyHost(new AgileBootstrapper(),
+                                            nancyConfig,
                                             new Uri(url));
 
             Console.WriteLine("Start Minimalist Service");
